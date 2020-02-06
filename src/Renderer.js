@@ -44,6 +44,7 @@ const ElementRenderer = ({
         name,
         showWhen,
         enabledWhen,
+        readOnly,
         template,
         fastField = true
     } = config;
@@ -79,6 +80,7 @@ const ElementRenderer = ({
       if (
         nextProps.name !== props.name ||
         nextProps.disabled !== props.disabled ||
+        nextProps.readOnly !== props.readOnly ||
         getIn(nextProps.formik.values, props.name) !==
           getIn(props.formik.values, props.name) ||
         getIn(nextProps.formik.errors, props.name) !==
@@ -96,10 +98,10 @@ const ElementRenderer = ({
 
     return !!type && canShow && (
         type === FIELD
-            ? <FormikFieldComponent name={ name } disabled={ disabled } shouldUpdate={ shouldUpdate } render={({ field: { value }}) => (
+            ? <FormikFieldComponent name={ name } disabled={ disabled } readOnly={ readOnly } shouldUpdate={ shouldUpdate } render={({ field: { value }}) => (
                 <ErrorManager name={ name }>
                     {(error) => (
-                        <Template disabled={ disabled } error={ error } { ...config }>
+                        <Template disabled={ disabled } readOnly={ readOnly } error={ error } { ...config }>
                             { renderElement({ config, formik, value, error }) }
                         </Template>
                     )}
